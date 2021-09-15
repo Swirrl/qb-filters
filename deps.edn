@@ -1,0 +1,10 @@
+{:deps
+ {grafter/vocabularies {:git/url "git@github.com:Swirrl/grafter-vocabularies.git"
+                        :sha "dd1219348217c051637fd6b5b05ac2adfd8e2794"}}
+
+ :aliases
+ {:test
+  {:extra-deps
+   {lambdaisland/kaocha {:mvn/version "1.0.887"}
+    com.lambdaisland/kaocha-cljs {:mvn/version "1.0.113"}}
+   :extra-paths ["test"]}}}

@@ -1,4 +1,4 @@
-(ns qb-filters-dsl.core
+(ns swirrl.qb-filters-dsl
   (:require
    [clojure.set :as set]
    [clojure.string :as str]

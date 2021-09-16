@@ -56,7 +56,7 @@ and a **selection** is one of
 
 ```clojure
 (ns example
-  (:require [qb-filters-dsl.core :as dsl])
+  (:require [swirrl.qb-filters-dsl :as dsl])
   (:import java.net.URI))
 
 (dsl/serialize

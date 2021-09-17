@@ -1,6 +1,5 @@
 {:deps
- {grafter/vocabularies {:git/url "git@github.com:Swirrl/grafter-vocabularies.git"
-                        :sha "dd1219348217c051637fd6b5b05ac2adfd8e2794"}}
+ {grafter/vocabularies {:mvn/version "0.3.8"}}
 
  :aliases
  {:test

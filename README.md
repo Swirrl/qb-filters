@@ -11,7 +11,7 @@ Add the following to your `deps.edn`
 
 ```clojure
 {:deps
- {swirrl/qb-filters-dsl
+ {io.github.swirrl/qb-filters-dsl
   {:git/url "git@github.com:Swirrl/qb-filters-dsl"
    :sha "1e5878df38f4518bb1eed66d1ce7faf84f9f3a87"}
   ,,,}

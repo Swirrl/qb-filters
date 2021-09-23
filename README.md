@@ -13,7 +13,7 @@ Add the following to your `deps.edn`
 {:deps
  {io.github.swirrl/qb-filters-dsl
   {:git/url "git@github.com:Swirrl/qb-filters-dsl"
-   :sha "1e5878df38f4518bb1eed66d1ce7faf84f9f3a87"}
+   :git/sha "562cdf42ce79bf41ea77159aecc46ef9353a86a5"}
   ,,,}
  ,,,}
 ```

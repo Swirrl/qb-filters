@@ -6,7 +6,7 @@
   #?(:clj (:import java.net.URI)))
 
 (defn- decode-query [query]
-  (-> query (str/replace "%20" " ") (str/replace "%0A" "\n")))
+  (-> query (str/replace "%20" " ") (str/replace "%7C" "|")))
 
 (defn- ->uri [s]
   #?(:clj (URI. s)
@@ -46,16 +46,16 @@
   "Takes a string representing qb-filters, and parses it to a map of dimension
    to actions for further manipulation or feeding to expand."
   [s]
-  (->> (str/split s #"\n\n")
+  (->> (str/split s #"\|\|")
        (filter seq)
        (map (fn [paragraph]
-              (let [[dim actions] (str/split paragraph #"\n" 2)]
+              (let [[dim actions] (str/split paragraph #"\|" 2)]
                 [(->uri dim)
-                 (mapv parse-action (str/split-lines actions))])))
+                 (mapv parse-action (str/split actions #"\|"))])))
        (into {})))
 
 (defn- encode-query [query]
-  (-> query (str/replace " " "%20") (str/replace "\n" "%0A")))
+  (-> query (str/replace " " "%20") (str/replace "|" "%7C")))
 
 (defn- serialize-all
   ([] "a")
@@ -91,6 +91,6 @@
        (map (fn [[dim actions]]
               (when (and dim (not-empty actions))
                 (str dim
-                     "\n"
-                     (->> actions (map serialize-action) (str/join "\n"))))))
-       (str/join "\n\n")))
+                     "|"
+                     (->> actions (map serialize-action) (str/join "|"))))))
+       (str/join "||")))

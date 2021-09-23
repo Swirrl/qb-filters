@@ -15,22 +15,22 @@
            [:deselect [:descendants (->uri "London")]]
            [:select [:individual (->uri "Wales")]]
            [:select [:search "foo"]]]}
-         (dsl/parse "dimension\ndEngland LSOA\n!dLondon\niWales\nsfoo")))
+         (dsl/parse "dimension|dEngland LSOA|!dLondon|iWales|sfoo")))
   (is (= {(->uri "dimension")
           [[:select [:all]]
-           [:deselect [:search "a b\nc d"]]]}
-         (dsl/parse "dimension\na\n!sa%20b%0Ac%20d"))))
+           [:deselect [:search "a b|c d"]]]}
+         (dsl/parse "dimension|a|!sa%20b%7Cc%20d"))))
 
 (deftest test-serialize
-  (is (= "dimension\ndEngland LSOA\n!dLondon\niWales\nsfoo"
+  (is (= "dimension|dEngland LSOA|!dLondon|iWales|sfoo"
          (dsl/serialize
           {(->uri "dimension")
            [[:select [:descendants (->uri "England") (->uri "LSOA")]]
             [:deselect [:descendants (->uri "London")]]
             [:select [:individual (->uri "Wales")]]
             [:select [:search "foo"]]]})))
-  (is (= "dimension\na\n!sa%20b%0Ac%20d"
+  (is (= "dimension|a|!sa%20b%7Cc%20d"
          (dsl/serialize
           {(->uri "dimension")
            [[:select [:all]]
-            [:deselect [:search "a b\nc d"]]]}))))
+            [:deselect [:search "a b|c d"]]]}))))

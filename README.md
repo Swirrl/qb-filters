@@ -66,9 +66,9 @@ and a **selection** is one of
    [:select [:individual (URI. "Wales")]]]})
 ```
 
-returns `geo\ndEngland LSOA\n!dLondon\niWales` which should finally be URI
+returns `geo|dEngland LSOA|!dLondon|iWales` which should finally be URI
 encoded and included in the query string:
 
 ```
-&qb-filters=geo%0AdEngland%20LSOA%0A!dLondon%0AiWales
+&qb-filters=geo%7CdEngland%20LSOA%7C!dLondon%7CiWales
 ```

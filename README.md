@@ -20,8 +20,8 @@ Add the following to your `deps.edn`
 
 ## Representation
 
-The result of `parse` (or the input to `serialize`) is a map from dimension to
-a vector of **actions**:
+The result of `dsl/parse` (or the input to `dsl/serialize` or `expand/expand`)
+is a map from dimension to a vector of **actions**:
 
 ```clojure
 {(URI. "dim0") [action0 action1 action3]
@@ -52,11 +52,18 @@ and a **selection** is one of
 [:search query level]
 ```
 
+**Note** at the time of writing only `:individual` and `:all` are supported.
+More will follow as they are needed.
+
 ## Example
+
+Generating a query parameter with `dsl/serialize`:
 
 ```clojure
 (ns example
-  (:require [swirrl.qb-filters.dsl :as dsl])
+  (:require
+   [swirrl.qb-filters.expand :as expand])
+   [swirrl.qb-filters.dsl :as dsl]
   (:import java.net.URI))
 
 (dsl/serialize
@@ -71,4 +78,53 @@ encoded and included in the query string:
 
 ```
 &qb-filters=geo%7CdEngland%20LSOA%7C!dLondon%7CiWales
+```
+
+Going the other way with `dsl/parse`, and expanding with `expand/expand`:
+
+```clojure
+(->> "http://muttnik.gov/def/dimension/multi_parent|a|!ihttp://muttnik.gov/def/concept/multi-parent/boots||http://purl.org/linked-data/cube#measureType|ihttp://muttnik.gov/def/measure/count"
+     dsl/parse
+     (expand/expand
+      (URI. "http://muttnik.gov/data/observations-multi-parent-hierarchy")
+      repo))
+```
+
+Where `repo` is a grafter RDF4J repository. Gives a map from dimension to set
+of concepts:
+
+```clojure
+{(URI. "http://purl.org/linked-data/cube#measureType")
+ #{(URI. "http://muttnik.gov/def/measure/count")}
+ (URI. "http://muttnik.gov/def/dimension/multi_parent")
+ #{(URI. "http://muttnik.gov/def/concept/multi-parent/hats")
+   (URI. "http://muttnik.gov/def/concept/multi-parent/racquets")
+   (URI. "http://muttnik.gov/def/concept/multi-parent/recurve-bows")
+   (URI. "http://muttnik.gov/def/concept/multi-parent/running-shoes")
+   (URI. "http://muttnik.gov/def/concept/multi-parent/shirts")
+   (URI. "http://muttnik.gov/def/concept/multi-parent/shoes")
+   (URI. "http://muttnik.gov/def/concept/multi-parent/trousers")}}
+```
+
+Or only expand the filter you care about with `expand/expand-dim`:
+
+```clojure
+(->> "http://muttnik.gov/def/dimension/multi_parent|a|!ihttp://muttnik.gov/def/concept/multi-parent/boots||http://purl.org/linked-data/cube#measureType|ihttp://muttnik.gov/def/measure/count"
+     dsl/parse
+     (expand/expand-dim
+      (URI. "http://muttnik.gov/data/observations-multi-parent-hierarchy")
+      repo
+      (URI. "http://muttnik.gov/def/dimension/multi_parent")))
+```
+
+Returns the set of concepts for the given dimension
+
+```clojure
+#{(URI. "http://muttnik.gov/def/concept/multi-parent/hats")
+  (URI. "http://muttnik.gov/def/concept/multi-parent/racquets")
+  (URI. "http://muttnik.gov/def/concept/multi-parent/recurve-bows")
+  (URI. "http://muttnik.gov/def/concept/multi-parent/running-shoes")
+  (URI. "http://muttnik.gov/def/concept/multi-parent/shirts")
+  (URI. "http://muttnik.gov/def/concept/multi-parent/shoes")
+  (URI. "http://muttnik.gov/def/concept/multi-parent/trousers")}
 ```

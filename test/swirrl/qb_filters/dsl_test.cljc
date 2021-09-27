@@ -1,7 +1,7 @@
-(ns swirrl.qb-filters-dsl-test
+(ns swirrl.qb-filters.dsl-test
   (:require
    [clojure.test :refer [deftest is]]
-   [swirrl.qb-filters-dsl :as dsl]
+   [swirrl.qb-filters.dsl :as dsl]
    #?(:cljs grafter.vocabularies.core))
   #?(:clj (:import java.net.URI)))
 

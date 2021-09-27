@@ -13,7 +13,7 @@ Add the following to your `deps.edn`
 {:deps
  {io.github.swirrl/qb-filters-dsl
   {:git/url "git@github.com:Swirrl/qb-filters-dsl"
-   :git/sha "562cdf42ce79bf41ea77159aecc46ef9353a86a5"}
+   :git/sha "dd986ad270f6e338d03c299f4870d5448d6d055e"}
   ,,,}
  ,,,}
 ```
@@ -56,7 +56,7 @@ and a **selection** is one of
 
 ```clojure
 (ns example
-  (:require [swirrl.qb-filters-dsl :as dsl])
+  (:require [swirrl.qb-filters.dsl :as dsl])
   (:import java.net.URI))
 
 (dsl/serialize

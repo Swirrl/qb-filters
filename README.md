@@ -1,4 +1,4 @@
-# qb-filters-dsl
+# qb-filters
 
 Functions for working with muttnik's `qb-filters` query parameter.
 
@@ -11,8 +11,8 @@ Add the following to your `deps.edn`
 
 ```clojure
 {:deps
- {io.github.swirrl/qb-filters-dsl
-  {:git/url "git@github.com:Swirrl/qb-filters-dsl"
+ {io.github.swirrl/qb-filters
+  {:git/url "git@github.com:Swirrl/qb-filters"
    :git/sha "dd986ad270f6e338d03c299f4870d5448d6d055e"}
   ,,,}
  ,,,}

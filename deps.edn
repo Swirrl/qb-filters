@@ -1,5 +1,7 @@
 {:deps
- {grafter/vocabularies {:mvn/version "0.3.8"}}
+ {grafter/grafter {:mvn/version "2.1.10"}
+  grafter/vocabularies {:mvn/version "0.3.8"}
+  selmer/selmer {:mvn/version "1.12.44"}}
 
  :aliases
  {:test

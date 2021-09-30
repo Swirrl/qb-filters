@@ -7,6 +7,7 @@
 (defn- concepts-where [conn where]
   (->> (str
         "PREFIX qb: <http://purl.org/linked-data/cube#>
+         PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
          SELECT DISTINCT ?concept
          WHERE {" where "}")
        (repo/query conn)
@@ -16,9 +17,25 @@
 (defn- expand-individual [cube dim conn concept]
   #{concept})
 
-(defn- expand-all [cube dim conn]
-  (concepts-where conn
-    (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .")))
+(defn- expand-all
+  ([cube dim conn]
+   (concepts-where conn
+     (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .")))
+  ([cube dim conn level]
+   (concepts-where conn
+     (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
+          ?concept a <{{level}}> ."))))
+
+(defn- expand-descendants
+  ([cube dim conn concept]
+   (concepts-where conn
+     (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
+          <{{concept}}> (skos:narrower|^skos:broader)+ ?concept .")))
+  ([cube dim conn concept level]
+   (concepts-where conn
+     (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
+          <{{concept}}> (skos:narrower|^skos:broader)+ ?concept .
+          ?concept a <{{level}}> ."))))
 
 (defn- expand-action [cube dim conn acc [action [verb & args]]]
   ((case action
@@ -27,7 +44,8 @@
    acc
    (apply (case verb
             :individual expand-individual
-            :all expand-all)
+            :all expand-all
+            :descendants expand-descendants)
           cube
           dim
           conn

@@ -128,3 +128,32 @@ Returns the set of concepts for the given dimension
   (URI. "http://muttnik.gov/def/concept/multi-parent/shoes")
   (URI. "http://muttnik.gov/def/concept/multi-parent/trousers")}
 ```
+
+## Grammar
+
+Pending a more complete description (since things are still changing), here's a
+sketch of the grammar of the DSL:
+
+```
+filters = dim-actions ("||" dim-actions)*
+dim-actions = dim "|" action ("|" actions)*
+dim = #"[^ |]+"
+action = selection | deselection
+selection = verb (arg (" " arg)*)?
+deselection = "!" selection
+verb = #"[a-z]"
+arg = #"[^ |]+"
+```
+
+Or in English:
+
+- The full expression is a `||`-separated list of dim-actions pairs
+- A dim-actions pair is a dimension, `|`, and then a `|`-separated list of
+  actions
+- An action is a selection or a deselection
+- A selection is a single letter verb followed by a space-separated list of
+  (verb dependent) arguments
+- A deselection is a selection prefixed with a `!`
+
+Verbs are currently `i` for individual, `a` for all, `d` for descendants, `s`
+for search.

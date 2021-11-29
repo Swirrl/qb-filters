@@ -66,5 +66,6 @@
          (map (fn [[dim actions]]
                 [dim
                  (reduce #(expand-action cube dim conn %1 %2) #{} actions)]))
+         (remove (fn [[_ concepts]] (empty? concepts)))
          (into {}))))
 

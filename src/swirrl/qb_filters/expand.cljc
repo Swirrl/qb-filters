@@ -23,19 +23,25 @@
      (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .")))
   ([cube dim conn level]
    (concepts-where conn
-     (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
-          ?concept a <{{level}}> ."))))
+     (<< "?concept a <{{level}}> .
+          FILTER EXISTS {
+            ?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
+          }"))))
 
 (defn- expand-descendants
   ([cube dim conn concept]
    (concepts-where conn
-     (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
-          <{{concept}}> (skos:narrower|^skos:broader)+ ?concept .")))
+     (<< "<{{concept}}> skos:narrower+ ?concept .
+          FILTER EXISTS {
+            ?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
+          }")))
   ([cube dim conn concept level]
    (concepts-where conn
-     (<< "?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
-          <{{concept}}> (skos:narrower|^skos:broader)+ ?concept .
-          ?concept a <{{level}}> ."))))
+     (<< "<{{concept}}> skos:narrower+ ?concept .
+          ?concept a <{{level}}> .
+          FILTER EXISTS {
+            ?obs qb:dataSet <{{cube}}> ; <{{dim}}> ?concept .
+          }"))))
 
 (defn- expand-action [cube dim conn acc [action [verb & args]]]
   ((case action

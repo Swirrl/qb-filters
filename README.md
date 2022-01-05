@@ -157,3 +157,9 @@ Or in English:
 
 Verbs are currently `i` for individual, `a` for all, `d` for descendants, `s`
 for search.
+
+# Licence
+
+Licensed under the Eclipse Public License 2.0
+
+Copyright (C) 2021 Swirrl IT LTD

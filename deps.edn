@@ -1,11 +1,10 @@
 {:deps
- {grafter/grafter {:mvn/version "2.1.10"}
-  grafter/vocabularies {:mvn/version "0.3.8"}
-  selmer/selmer {:mvn/version "1.12.44"}}
+ {io.github.swirrl/grafter.repository {:mvn/version "3.0.0"}
+  selmer/selmer {:mvn/version "1.12.50"}}
 
  :aliases
  {:test
   {:extra-deps
-   {lambdaisland/kaocha {:mvn/version "1.0.887"}
-    com.lambdaisland/kaocha-cljs {:mvn/version "1.0.113"}}
+   {lambdaisland/kaocha {:mvn/version "1.69.1069"}
+    com.lambdaisland/kaocha-cljs {:mvn/version "1.1.118"}}
    :extra-paths ["test"]}}}

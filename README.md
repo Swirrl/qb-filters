@@ -158,6 +158,12 @@ Or in English:
 Verbs are currently `i` for individual, `a` for all, `d` for descendants, `s`
 for search.
 
+## Test
+
+To run the cljs as well as the clj tests: `yarn install`.
+
+`./bin/kaocha`
+
 # Licence
 
 Licensed under the Eclipse Public License 2.0
